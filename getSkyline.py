@@ -9,32 +9,45 @@ class Solution:
         # the point to plot. 
         # Once ploted, the dictionary is updated to store the hight and width of 
         
-        dic = {1:[first_building_right, first_building_height]}
-        output = [first_building_left, first_building_height]
+        dic = {1:[buildings[1], buildings[2]]}
+        output = [[buildings[0], buildings[2]]]
         count = 1
         to_delete= []
         junction_candidates=[]
         for i in buildings[1:]:
             count = count + 1
+            #if no buildings overlap current building
+            if max([row[0] for row in dic]) < i[0]:
+                #furthest dictionary point is plotted
+                output.append([max(row[0] for row in to_delete),0])
+                # dictionary is wiped
+                # curr building to dictionary
+                dic = {count:[i[1], i[2]]}
+                # closest point of current building is ploted
+                output.append(1:[i[0], i[2]])
+                continue 
             #remove buildings not overlaping current building
-            to_delete = [row[0] for j,k in dic.items()]
+            [row[0] for j,k in dic.items()]
+            to_delete = []
             if key in to_delete:
                 del dic[key]
             # find buildings taller than current building
             for j,k in dic.items():
                 if i[2] <= k[1]:
-                    junction_candidates.append(k)
-            # plot longest overlap of current building
+                    junction_candidates.append(k[0])
+            # find longest overlap of current building
             if junction_candidates != []:
-                output.append([max(row[1] for row in junction_candidates),i[2]])
+                # if curr building height == tallest prev building height do nothing.
+                if max(junction_candidates) == i[2]:
+                    continue
+                output.append(max(junction_candidates),i[2]])
                 continue
-             
-            # here, remove point if i[height] = k[right] and i[left] = k[right]???
             # if junction_candidates is empty, current building must be tallest.
             output.append(i[0],i[2])
             # record building in dictionary to avoid backgtracking
             dic[count] = [i[1:]]
 
+            """
             if len(dic) == len(to_delete):
                 output.append([max(row[1] for row in to_delete),0]) #might need to be list.
                 dic = {}
@@ -47,7 +60,7 @@ class Solution:
             # plot
             output.append([dir_mx_h_l,i[2]])
             # add to dic
-            dic.update(count:i)
+            dic.update(count:i)"""
             
 
 
