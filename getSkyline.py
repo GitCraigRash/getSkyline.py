@@ -12,16 +12,16 @@ class Solution:
         dic = {1:[first_building_height,first_building_right]}
         output = [first_building_left, first_building_height]
         count = 1
-        for i in buildings[1:]:
+        for i in buildings[1:].values():
             count = count + 1
             for j,k in dic.items():
                 if i[0] >= k[1]:
                     to_delete.append(j)
             # here, remove point if i[height] = k[right] and i[left] = k[right]???
             if len(dic) == len(to_delete):
-                output.append([max(row[1] for row in to_delete),0])
-                if m in to_delete:
-                    del dic[m]
+                output.append([max(row[1] for row in to_delete),0]) #might need to be list.
+                dic = {}
+                dic.update(count:i)
                 continue
             if m in to_delete:
                 del dic[m]
