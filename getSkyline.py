@@ -9,15 +9,32 @@ class Solution:
         # the point to plot. 
         # Once ploted, the dictionary is updated to store the hight and width of 
         
-        dic = {1:[first_building_height,first_building_right]}
+        dic = {1:[first_building_right, first_building_height]}
         output = [first_building_left, first_building_height]
         count = 1
-        for i in buildings[1:].values():
+        to_delete= []
+        junction_candidates=[]
+        for i in buildings[1:]:
             count = count + 1
+            #remove buildings not overlaping current building
+            to_delete = [row[0] for j,k in dic.items()]
+            if key in to_delete:
+                del dic[key]
+            # find buildings taller than current building
             for j,k in dic.items():
-                if i[0] >= k[1]:
-                    to_delete.append(j)
+                if i[2] <= k[1]:
+                    junction_candidates.append(k)
+            # plot longest overlap of current building
+            if junction_candidates != []:
+                output.append([max(row[1] for row in junction_candidates),i[2]])
+                continue
+             
             # here, remove point if i[height] = k[right] and i[left] = k[right]???
+            # if junction_candidates is empty, current building must be tallest.
+            output.append(i[0],i[2])
+            # record building in dictionary to avoid backgtracking
+            dic[count] = [i[1:]]
+
             if len(dic) == len(to_delete):
                 output.append([max(row[1] for row in to_delete),0]) #might need to be list.
                 dic = {}
